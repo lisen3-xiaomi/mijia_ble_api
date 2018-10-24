@@ -113,7 +113,8 @@
 #define CRITICAL_SECTION_ENTER()
 #define CRITICAL_SECTION_EXIT()
 
-#define MI_PRINTF(...)
+#include <stdio.h>
+#define MI_PRINTF(...)	printf(__VA_ARGS__)
 #define MI_HEXDUMP(base_addr, bytes)
 
 #define TRACE_INIT(pin)
