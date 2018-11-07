@@ -287,6 +287,13 @@ mible_status_t mible_gap_address_get(mible_addr_t mac)
     return MI_SUCCESS;
 }
 
+mible_status_t mible_gap_address_set(mible_addr_t mac)
+{
+	bd_addr bt_addr; 
+	memcpy(bt_addr.addr,(uint8_t *)mac,6);  
+	struct gecko_msg_system_set_bt_address_rsp_t *ret = gecko_cmd_system_set_bt_address(bt_addr);
+	return ret->result;
+}
 /**
  * @brief   Start scanning
  * @param   [in] scan_type: passive or active scaning

@@ -5,7 +5,9 @@
 /* Connection handle value in disconnection state */
 #define DISCONNECTION                           0xFF
 #define INVALID_CONNECTION_HANDLE               0xFFFF
+
 void mible_stack_event_handler(struct gecko_cmd_packet *evt);
+mible_status_t mible_gap_address_set(mible_addr_t mac);
 
 typedef enum {
     idle_s,
