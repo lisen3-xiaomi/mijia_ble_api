@@ -314,7 +314,6 @@ mible_status_t mible_gap_scan_start(mible_gap_scan_type_t scan_type,
 {
 	uint16_t scan_interval, scan_window;
     uint8_t active;
-    uint16_t result;
 
     if (scanning) {
         return MI_ERR_INVALID_STATE;
@@ -331,12 +330,17 @@ mible_status_t mible_gap_scan_start(mible_gap_scan_type_t scan_type,
     scan_interval = scan_param.scan_interval;
     scan_window = scan_param.scan_window;
 
-    result = gecko_cmd_le_gap_set_scan_parameters(scan_interval, scan_window, active)->result;
-    if (result == bg_err_invalid_param) {
-        return MI_ERR_INVALID_PARAM;
-    }
+	if(gecko_cmd_le_gap_set_discovery_timing(1, scan_interval, scan_window)->result != 0){
+		return MI_ERR_INVALID_PARAM;
+	}
+	
+	if(gecko_cmd_le_gap_set_discovery_type(1,1)->result != 0){
+		return MI_ERR_INVALID_PARAM;
+	}
 
-    result = gecko_cmd_le_gap_discover(le_gap_discover_observation)->result;
+	if(gecko_cmd_le_gap_start_discovery(1,le_gap_discover_observation)->result){
+		return MIBLE_ERR_UNKNOWN;
+	}
 
 /*    if (result == bg_err_success && scan_param.timeout != 0) {*/
         /*gecko_cmd_hardware_set_soft_timer(32768 * scan_param.timeout,*/
